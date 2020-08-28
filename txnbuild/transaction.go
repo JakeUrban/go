@@ -744,7 +744,7 @@ func NewFeeBumpTransaction(params FeeBumpTransactionParams) (*FeeBumpTransaction
 // BuildChallengeTx is a factory method that creates a valid SEP 10 challenge, for use in web authentication.
 // "timebound" is the time duration the transaction should be valid for, and must be greater than 1s (300s is recommended).
 // More details on SEP 10: https://github.com/stellar/stellar-protocol/blob/master/ecosystem/sep-0010.md
-func BuildChallengeTx(serverSignerSecret, clientAccountID, anchorName, network string, timebound time.Duration) (*Transaction, error) {
+func BuildChallengeTx(serverSignerSecret, clientAccountID, homeDomain, network string, timebound time.Duration) (*Transaction, error) {
 	if timebound < time.Second {
 		return nil, errors.New("provided timebound must be at least 1s (300s is recommended)")
 	}
@@ -792,7 +792,7 @@ func BuildChallengeTx(serverSignerSecret, clientAccountID, anchorName, network s
 			Operations: []Operation{
 				&ManageData{
 					SourceAccount: &ca,
-					Name:          anchorName + " auth",
+					Name:          homeDomain + " auth",
 					Value:         []byte(randomNonceToString),
 				},
 			},
