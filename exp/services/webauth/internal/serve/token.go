@@ -109,7 +109,7 @@ func (h tokenHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			unauthorized.Render(w)
 			return
 		}
-		signersVerified, err = txnbuild.VerifyChallengeTxSigners(req.Transaction, signingAddress.Address(), h.NetworkPassphrase, clientAccountID)
+		signersVerified, err = txnbuild.VerifyChallengeTxSigners(req.Transaction, signingAddress.Address(), h.NetworkPassphrase, r.Host, clientAccountID)
 		if err != nil {
 			l.Infof("Failed to verify with account master key as signer.")
 			unauthorized.Render(w)
