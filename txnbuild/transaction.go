@@ -900,7 +900,7 @@ func ReadChallengeTx(challengeTx, serverAccountID, network, homeDomain string) (
 	}
 
 	// verify manage data key
-	if op.Name != homeDomain + " auth" {
+	if op.Name != homeDomain+" auth" {
 		return tx, clientAccountID, errors.New("manage data operation key does not match homeDomain passed")
 	}
 
