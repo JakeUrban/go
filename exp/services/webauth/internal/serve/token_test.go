@@ -87,7 +87,7 @@ func TestToken_formInputSuccess(t *testing.T) {
 
 	body := url.Values{}
 	body.Set("transaction", txSigned)
-	r := httptest.NewRequest("POST", "example.com/", strings.NewReader(body.Encode()))
+	r := httptest.NewRequest("POST", "/", strings.NewReader(body.Encode()))
 	t.Logf("Request URL HOST: %s", r.URL.Host)
 	r.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 	w := httptest.NewRecorder()
