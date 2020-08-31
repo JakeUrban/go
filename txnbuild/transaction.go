@@ -832,7 +832,7 @@ func generateRandomNonce(n int) ([]byte, error) {
 // intend to pass.
 //
 // This function verifies that the home domain passed is included in the Manage Data
-// operation's key and that the serverAccountID signed the challenge. If the
+// operation key and that the serverAccountID signed the challenge. If the
 // serverAccountID also matches the SIGNING_KEY included in the TOML file hosted the
 // service's homeDomain passed, malicious web services will not be able to use the
 // challenge transaction POSTed back to the authentication endpoint.
