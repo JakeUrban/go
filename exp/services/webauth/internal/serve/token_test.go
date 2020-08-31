@@ -291,7 +291,7 @@ func TestToken_jsonInputValidRotatingServerSigners(t *testing.T) {
 			tx, err := txnbuild.BuildChallengeTx(
 				serverKey.Seed(),
 				account.Address(),
-				"testserver",
+				"example.com",
 				network.TestNetworkPassphrase,
 				time.Minute,
 			)
@@ -376,7 +376,7 @@ func TestToken_jsonInputValidMultipleSigners(t *testing.T) {
 	tx, err := txnbuild.BuildChallengeTx(
 		serverKey.Seed(),
 		account.Address(),
-		"testserver",
+		"example.com",
 		network.TestNetworkPassphrase,
 		time.Minute,
 	)
@@ -482,7 +482,7 @@ func TestToken_jsonInputNotEnoughWeight(t *testing.T) {
 	tx, err := txnbuild.BuildChallengeTx(
 		serverKey.Seed(),
 		account.Address(),
-		"testserver",
+		"example.com",
 		network.TestNetworkPassphrase,
 		time.Minute,
 	)
@@ -563,7 +563,7 @@ func TestToken_jsonInputUnrecognizedSigner(t *testing.T) {
 	tx, err := txnbuild.BuildChallengeTx(
 		serverKey.Seed(),
 		account.Address(),
-		"testserver",
+		"example.com",
 		network.TestNetworkPassphrase,
 		time.Minute,
 	)
@@ -644,7 +644,7 @@ func TestToken_jsonInputAccountNotExistSuccess(t *testing.T) {
 	tx, err := txnbuild.BuildChallengeTx(
 		serverKey.Seed(),
 		account.Address(),
-		"testserver",
+		"example.com",
 		network.TestNetworkPassphrase,
 		time.Minute,
 	)
@@ -746,7 +746,7 @@ func TestToken_jsonInputAccountNotExistFail(t *testing.T) {
 	tx, err := txnbuild.BuildChallengeTx(
 		serverKey.Seed(),
 		account.Address(),
-		"testserver",
+		"example.com",
 		network.TestNetworkPassphrase,
 		time.Minute,
 	)
@@ -823,7 +823,7 @@ func TestToken_jsonInputAccountNotExistNotAllowed(t *testing.T) {
 	tx, err := txnbuild.BuildChallengeTx(
 		serverKey.Seed(),
 		account.Address(),
-		"testserver",
+		"example.com",
 		network.TestNetworkPassphrase,
 		time.Minute,
 	)
@@ -902,7 +902,7 @@ func TestToken_jsonInputUnrecognizedServerSigner(t *testing.T) {
 	tx, err := txnbuild.BuildChallengeTx(
 		serverKey1.Seed(),
 		account.Address(),
-		"testserver",
+		"example.com",
 		network.TestNetworkPassphrase,
 		time.Minute,
 	)
