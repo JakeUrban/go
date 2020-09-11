@@ -28,6 +28,12 @@ type challengeResponse struct {
 }
 
 func (h challengeHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	if h.SigningKey == nil {
+		h.Logger.Error("No signing key available for building challenge transactions.")
+		methodNotAllowed.Render(w)
+		return
+	}
+
 	ctx := r.Context()
 	queryValues := r.URL.Query()
 

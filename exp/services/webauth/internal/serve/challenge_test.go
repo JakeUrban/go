@@ -117,7 +117,9 @@ func TestChallenge_anotherHomeDomain(t *testing.T) {
 }
 
 func TestChallenge_noAccount(t *testing.T) {
-	h := challengeHandler{}
+	h := challengeHandler{
+		SigningKey: keypair.MustRandom(),
+	}
 
 	r := httptest.NewRequest("GET", "/", nil)
 	w := httptest.NewRecorder()
@@ -133,7 +135,9 @@ func TestChallenge_noAccount(t *testing.T) {
 }
 
 func TestChallenge_invalidAccount(t *testing.T) {
-	h := challengeHandler{}
+	h := challengeHandler{
+		SigningKey: keypair.MustRandom(),
+	}
 
 	r := httptest.NewRequest("GET", "/?account=GREATACCOUNT", nil)
 	w := httptest.NewRecorder()
@@ -153,6 +157,7 @@ func TestChallenge_invalidHomeDomain(t *testing.T) {
 	anotherDomain := "anotherdomain"
 
 	h := challengeHandler{
+		SigningKey:  keypair.MustRandom(),
 		HomeDomains: []string{"testdomain"},
 	}
 
@@ -167,4 +172,22 @@ func TestChallenge_invalidHomeDomain(t *testing.T) {
 	body, err := ioutil.ReadAll(resp.Body)
 	require.NoError(t, err)
 	assert.JSONEq(t, `{"error":"The request was invalid in some way."}`, string(body))
+}
+
+func TestChallenge_noSigningKey(t *testing.T) {
+	h := challengeHandler{
+		Logger: supportlog.DefaultLogger,
+	}
+
+	r := httptest.NewRequest("GET", "/", nil)
+	w := httptest.NewRecorder()
+	h.ServeHTTP(w, r)
+	resp := w.Result()
+
+	require.Equal(t, http.StatusMethodNotAllowed, resp.StatusCode)
+	assert.Equal(t, "application/json; charset=utf-8", resp.Header.Get("Content-Type"))
+
+	body, err := ioutil.ReadAll(resp.Body)
+	require.NoError(t, err)
+	assert.JSONEq(t, `{"error":"The method is not allowed for resource at the url requested."}`, string(body))
 }

@@ -77,7 +77,7 @@ func handler(opts Options) (http.Handler, error) {
 		opts.Logger.Info("Signing key ", i, ": ", signingKey.Address())
 	}
 	if signingKeyFull == nil {
-		return nil, errors.New("no signing key matches the one specified in the stellar.toml file")
+		opts.Logger.Error("No signing key configured for building challenge transactions. Please provide the private key counterpart of the SIGNING_KEY shown in the stellar.toml file.")
 	}
 
 	homeDomains := strings.Split(opts.AuthHomeDomains, ",")
