@@ -184,10 +184,10 @@ func TestChallenge_noSigningKey(t *testing.T) {
 	h.ServeHTTP(w, r)
 	resp := w.Result()
 
-	require.Equal(t, http.StatusMethodNotAllowed, resp.StatusCode)
+	require.Equal(t, http.StatusServiceUnavailable, resp.StatusCode)
 	assert.Equal(t, "application/json; charset=utf-8", resp.Header.Get("Content-Type"))
 
 	body, err := ioutil.ReadAll(resp.Body)
 	require.NoError(t, err)
-	assert.JSONEq(t, `{"error":"The method is not allowed for resource at the url requested."}`, string(body))
+	assert.JSONEq(t, `{"error":"This service is currently unavailable."}`, string(body))
 }

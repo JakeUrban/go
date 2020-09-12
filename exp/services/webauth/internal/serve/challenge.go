@@ -29,8 +29,8 @@ type challengeResponse struct {
 
 func (h challengeHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	if h.SigningKey == nil {
-		h.Logger.Error("No signing key available for building challenge transactions.")
-		methodNotAllowed.Render(w)
+		h.Logger.Warn("No signing key available for building challenge transactions.")
+		serviceUnavailableError.Render(w)
 		return
 	}
 
