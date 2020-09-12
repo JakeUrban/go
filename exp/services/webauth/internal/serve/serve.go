@@ -58,26 +58,27 @@ func handler(opts Options) (http.Handler, error) {
 	signingKeyStrs := strings.Split(opts.SigningKeys, ",")
 	signingAddresses := make([]*keypair.FromAddress, 0, len(signingKeyStrs))
 
-	signingKeyPub, err := getStellarTOMLSigningKey(opts.StellarTOMLDomain)
-	if err != nil {
-		return nil, errors.Wrap(err, "getting signing key public")
-	}
-
 	for i, signingKeyStr := range signingKeyStrs {
-		var signingKey *keypair.Full
-		signingKey, err = keypair.ParseFull(signingKeyStr)
+		signingKey, err := keypair.ParseFull(signingKeyStr)
 		if err != nil {
 			return nil, errors.Wrap(err, "parsing signing key seed")
 		}
 
-		if signingKey.Address() == signingKeyPub {
+		if i == 0 {
+			var signingKeyPub string
+			signingKeyPub, err = getStellarTOMLSigningKey(opts.StellarTOMLDomain)
+			if err != nil {
+				opts.Logger.Errorf("Error reading SIGNING_KEY from domain %s: %v", opts.StellarTOMLDomain, err)
+			}
+
+			if err == nil && signingKey.Address() != signingKeyPub {
+				opts.Logger.Error("The configured signing key does not match the private key counterpart of the SIGNING_KEY in the stellar.toml file.")
+			}
+
 			signingKeyFull = signingKey
 		}
 		signingAddresses = append(signingAddresses, signingKey.FromAddress())
 		opts.Logger.Info("Signing key ", i, ": ", signingKey.Address())
-	}
-	if signingKeyFull == nil {
-		opts.Logger.Error("No signing key configured for building challenge transactions. Please provide the private key counterpart of the SIGNING_KEY shown in the stellar.toml file.")
 	}
 
 	homeDomains := strings.Split(opts.AuthHomeDomains, ",")
@@ -87,7 +88,7 @@ func handler(opts Options) (http.Handler, error) {
 	}
 
 	jwk := jose.JSONWebKey{}
-	err = json.Unmarshal([]byte(opts.JWK), &jwk)
+	err := json.Unmarshal([]byte(opts.JWK), &jwk)
 	if err != nil {
 		return nil, errors.Wrap(err, "parsing JSON Web Key (JWK)")
 	}

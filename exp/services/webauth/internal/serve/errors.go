@@ -10,10 +10,6 @@ var serverError = errorResponse{
 	Status: http.StatusInternalServerError,
 	Error:  "An error occurred while processing this request.",
 }
-var serviceUnavailableError = errorResponse{
-	Status: http.StatusServiceUnavailable,
-	Error:  "This service is currently unavailable.",
-}
 var notFound = errorResponse{
 	Status: http.StatusNotFound,
 	Error:  "The resource at the url requested was not found.",
