@@ -64,6 +64,7 @@ func handler(opts Options) (http.Handler, error) {
 			return nil, errors.Wrap(err, "parsing signing key seed")
 		}
 
+		// Only the first key is used for signing. The rest is for verifying challenge transactions, if any.
 		if i == 0 {
 			var signingKeyPub string
 			signingKeyPub, err = getStellarTOMLSigningKey(opts.StellarTOMLDomain)
