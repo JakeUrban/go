@@ -46,10 +46,12 @@ func (h tokenHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var tx *txnbuild.Transaction
-	var clientAccountID string
-	var signingAddress *keypair.FromAddress
-	var homeDomain string
+	var (
+		tx              *txnbuild.Transaction
+		clientAccountID string
+		signingAddress  *keypair.FromAddress
+		homeDomain      string
+	)
 	for _, s := range h.SigningAddresses {
 		for _, domain := range h.HomeDomains {
 			tx, clientAccountID, err = txnbuild.ReadChallengeTx(req.Transaction, s.Address(), h.NetworkPassphrase, domain)

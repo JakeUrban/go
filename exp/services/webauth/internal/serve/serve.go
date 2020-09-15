@@ -84,8 +84,9 @@ func handler(opts Options) (http.Handler, error) {
 
 	homeDomains := strings.Split(opts.AuthHomeDomains, ",")
 	trimmedHomeDomains := make([]string, 0, len(homeDomains))
-	for _, domain := range homeDomains {
-		trimmedHomeDomains = append(trimmedHomeDomains, strings.TrimRight(domain, "./"))
+	for _, homeDomain := range homeDomains {
+		// In some cases the full stop (period) character is used at the end of a FQDN.
+		trimmedHomeDomains = append(trimmedHomeDomains, strings.TrimSuffix(homeDomain, "."))
 	}
 
 	jwk := jose.JSONWebKey{}

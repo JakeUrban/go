@@ -39,7 +39,8 @@ func (h challengeHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	homeDomain := queryValues.Get("home_domain")
 	if homeDomain != "" {
-		homeDomain = strings.TrimRight(homeDomain, "./")
+		// In some cases the full stop (period) character is used at the end of a FQDN.
+		homeDomain = strings.TrimSuffix(homeDomain, ".")
 		matched := false
 		for _, supportedDomain := range h.HomeDomains {
 			if homeDomain == supportedDomain {
